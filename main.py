@@ -1,13 +1,30 @@
-import random as r
 import tkinter as tk
+from PIL import Image, ImageTk
+
+pre = tk.Tk()
+pre.config(bg='white')
+pre.geometry('800x500+400+300')
+
+Img_AppLogo = ImageTk.PhotoImage(Image.open("SeeWangLogo-new.png").resize((256,128),Image.LANCZOS))
+Lab_AppLogoShow = tk.Label(pre,image=Img_AppLogo)
+Lab_AppLogoShow.image = Img_AppLogo
+Lab_Loading = tk.Label(pre,text='正在加载...',font=("MiSans VF thin",80),fg='green',bg='white')
+
+Lab_Loading.pack()
+Lab_AppLogoShow.pack()
+
+
+def to_main():
+    pre.destroy()
+
+pre.update()
+
+import random as r
 import time as t
 import WeightChoice as wc
 import os
 import threading
 import time
-from tkinter import filedialog
-from PIL import Image, ImageTk
-from tkinter.ttk import Style, Progressbar
 from ffpyplayer.player import MediaPlayer
 
 win = tk.Tk()
@@ -70,15 +87,20 @@ def PlayAnimation(filepath):
 def ShowAbout():
     abt = tk.Toplevel(win)
     abt.title('悦灵云工作室·AllayCloud-Studio')
-    Img_StudioLogo = ImageTk.PhotoImage(Image.open("StudioLogo.png").resize((512,200),Image.LANCZOS))
-    Lab_StudioLogoShow = tk.Label(abt,image=Img_StudioLogo)
-    Img_AppLogo = ImageTk.PhotoImage(Image.open("SeeWangLogo-new.png").resize((512,256),Image.LANCZOS))
-    Lab_AppLogoShow = tk.Label(abt,image=Img_AppLogo)
-    Lab_StudioLogoShow.image = Img_StudioLogo
-    Lab_AppLogoShow.image = Img_AppLogo
-    Lab_StudioLogoShow.pack()
-    Lab_AppLogoShow.pack()
-    abt.mainloop()
+
+    def load_images():
+        try:
+            Img_StudioLogo = ImageTk.PhotoImage(Image.open("StudioLogo.png").resize((512,200),Image.LANCZOS))
+            Lab_StudioLogoShow = tk.Label(abt,image=Img_StudioLogo)
+            Img_AppLogo = ImageTk.PhotoImage(Image.open("SeeWangLogo-new.png").resize((512,256),Image.LANCZOS))
+            Lab_AppLogoShow = tk.Label(abt,image=Img_AppLogo)
+            Lab_StudioLogoShow.image = Img_StudioLogo
+            Lab_AppLogoShow.image = Img_AppLogo
+            Lab_StudioLogoShow.pack()
+            Lab_AppLogoShow.pack()
+        except Exception as e:
+            print(e)
+    abt.after(1000,load_images)
 
 def RefreshWeight():
     global config
@@ -178,7 +200,7 @@ def update_Lab_Number_wraplength(event):
 
 win.bind('<Configure>', update_Lab_Number_wraplength)
 
-Lab_Number = tk.Label(win,text="快抽我等不及了",font=("MiSans VF Bold",160),wraplength=int(win.winfo_width()))
+Lab_Number = tk.Label(win,text="你是不是找抽",font=("MiSans VF Bold",160),wraplength=int(win.winfo_width()))
 But_ChoiseOne = tk.Button(win,text="单抽",font=("MiSans VF",20),height=2,width=30,border=5,command=ChooseOne)
 But_ChooseThree = tk.Button(win,text="三抽",font=("MiSans VF",20),height=2,width=30,border=5,command=ChooseThree)
 But_ChooseN = tk.Button(win,text="N抽",font=("MiSans VF",20),height=2,width=30,border=5,command=ChooseN)
@@ -207,5 +229,7 @@ But_RefreshWeight.place(x=100,y=500)
 But_AnimationOn.place(x=100,y=550)
 But_About.place(x=100,y=600)
 Lab_Chosen.pack()
+
+pre.after(1,to_main)
 
 win.mainloop()
