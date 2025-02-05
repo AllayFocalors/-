@@ -72,7 +72,7 @@ def ShowAbout():
     abt.title('悦灵云工作室·AllayCloud-Studio')
     Img_StudioLogo = ImageTk.PhotoImage(Image.open("StudioLogo.png").resize((512,200),Image.LANCZOS))
     Lab_StudioLogoShow = tk.Label(abt,image=Img_StudioLogo)
-    Img_AppLogo = ImageTk.PhotoImage(Image.open("SeeWangLogo.png").resize((512,512),Image.LANCZOS))
+    Img_AppLogo = ImageTk.PhotoImage(Image.open("SeeWangLogo-new.png").resize((512,256),Image.LANCZOS))
     Lab_AppLogoShow = tk.Label(abt,image=Img_AppLogo)
     Lab_StudioLogoShow.image = Img_StudioLogo
     Lab_AppLogoShow.image = Img_AppLogo
